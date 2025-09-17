@@ -1,4 +1,4 @@
-package com.sms.service;
+package com.sms.service.serviceImpl;
 
 import com.sms.entity.User;
 import com.sms.repository.UserRepository;
@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service

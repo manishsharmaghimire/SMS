@@ -2,10 +2,11 @@ package com.sms.config;
 
 import com.sms.security.JwtAuthEntryPoint;
 import com.sms.security.JwtAuthenticationFilter;
-import com.sms.service.CustomUserDetailsService;
+import com.sms.service.serviceImpl.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -49,19 +50,22 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Profile("!test")  // Exclude from test profile
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        // For now, permit all requests to test if security is the issue
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults()) // Use CorsConfig
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/h2-console/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthEntryPoint))
-                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
-
+            .csrf(AbstractHttpConfigurer::disable)
+            .cors(Customizer.withDefaults())
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll()  // Allow all requests
+            )
+            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+            
+        System.out.println("SECURITY IS CURRENTLY DISABLED - FOR TESTING ONLY");
+        System.out.println("All endpoints are publicly accessible");
+        
         return http.build();
+
+
     }
 }

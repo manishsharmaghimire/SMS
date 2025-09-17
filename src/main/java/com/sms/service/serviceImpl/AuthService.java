@@ -1,4 +1,4 @@
-package com.sms.service;
+package com.sms.service.serviceImpl;
 
 import com.sms.dto.AuthResponse;
 import com.sms.dto.LoginRequest;
@@ -14,6 +14,7 @@ import com.sms.repository.StudentProfileRepository;
 import com.sms.repository.TeacherProfileRepository;
 import com.sms.repository.UserRepository;
 import com.sms.security.JwtUtils;
+import com.sms.service.AuthServiceI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -35,9 +36,9 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AuthService {
+public class AuthService implements AuthServiceI {
     
-    // Error messages
+
     private static final String INVALID_CREDENTIALS = "Invalid email or password";
     private static final String EMAIL_EXISTS = "Email %s is already registered";
     private static final String INVALID_ROLE = "Unsupported role: %s";

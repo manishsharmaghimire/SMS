@@ -1,8 +1,6 @@
 package com.sms.security;
 
-import com.sms.security.JwtUtils;
-
-import com.sms.service.CustomUserDetailsService;
+import com.sms.service.serviceImpl.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

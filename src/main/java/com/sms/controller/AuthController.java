@@ -3,7 +3,7 @@ package com.sms.controller;
 import com.sms.dto.AuthResponse;
 import com.sms.dto.LoginRequest;
 import com.sms.dto.RegisterRequest;
-import com.sms.service.AuthService;
+import com.sms.service.serviceImpl.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
