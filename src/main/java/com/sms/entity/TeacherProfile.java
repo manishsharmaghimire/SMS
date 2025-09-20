@@ -13,7 +13,13 @@ public class TeacherProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String subject;
+    
+    private String subjectSpecialization;
+    
+    private String department;
+    
     private Double salary;
 
     @OneToOne

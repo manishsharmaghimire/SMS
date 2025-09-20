@@ -9,12 +9,10 @@ import com.sms.mapper.TeacherMapper;
 import com.sms.repository.StudentProfileRepository;
 import com.sms.repository.TeacherProfileRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -49,11 +47,7 @@ public class SearchService {
         String cleanedQuery = cleanAndNormalizeQuery(query);
         
         Page<TeacherProfile> teacherPage = teacherProfileRepository
-            .findByUserFullNameContainingIgnoreCaseOrUserEmailContainingIgnoreCaseOrDepartmentContainingIgnoreCaseOrSubjectSpecializationContainingIgnoreCaseOrId(
-                cleanedQuery, cleanedQuery, cleanedQuery, cleanedQuery, 
-                isNumeric(cleanedQuery) ? Long.parseLong(cleanedQuery) : -1L,
-                pageable
-            );
+            .searchAllFields(cleanedQuery, pageable);
             
         return teacherPage.map(teacherMapper::toDto);
     }
@@ -71,10 +65,9 @@ public class SearchService {
             
         // Search teachers
         Page<TeacherProfile> teacherPage = teacherProfileRepository
-            .findByUserFullNameContainingIgnoreCaseOrUserEmailContainingIgnoreCaseOrDepartmentContainingIgnoreCaseOrSubjectSpecializationContainingIgnoreCaseOrId(
-                cleanedQuery, cleanedQuery, cleanedQuery, cleanedQuery, 
-                isNumeric(cleanedQuery) ? Long.parseLong(cleanedQuery) : -1L,
-                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize() / 2, pageable.getSort())
+            .searchAllFields(
+                    cleanedQuery,
+                    PageRequest.of(pageable.getPageNumber(), pageable.getPageSize() / 2, pageable.getSort())
             );
             
         // Combine results
